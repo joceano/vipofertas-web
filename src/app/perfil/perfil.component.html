@@ -1,0 +1,114 @@
+<div class="ui-g-12 ui-md-8 ui-lg-6 ui-md-offset-2 ui-lg-offset-3">
+  <p-progressBar mode="indeterminate" *ngIf="progressSalvarDados || progressSalvarSenha"></p-progressBar>
+  <p-panel header="Manutenção de Usuário" [style]="{'margin-bottom':'10px'}">
+    <p-tabView>
+      <p-tabPanel header="Dados da Conta">
+        <form [formGroup]="perfilform">
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+              <span>CPF:</span>
+              <span>{{usuario.username}}</span>
+            </div>
+          </div>
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+              <span>Nome:</span>
+              <input type="text" pInputText name="nome" formControlName="nome" [(ngModel)]="usuario.nome"/>
+              <div class="ui-message ui-messages-error" *ngIf="!perfilform.controls['nome'].valid&&perfilform.controls['nome'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="perfilform.controls['nome'].errors['required']">O nome é obrigatório</span>
+                <span *ngIf="perfilform.controls['nome'].errors['maxlength']">Máximo 20 caracteres</span>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+              <span>Sobrenome:</span>
+              <input type="text" pInputText name="sobrenome" formControlName="sobrenome" [(ngModel)]="usuario.sobrenome"/>
+              <div class="ui-message ui-messages-error" *ngIf="!perfilform.controls['sobrenome'].valid&&perfilform.controls['sobrenome'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="perfilform.controls['sobrenome'].errors['required']">O sobrenome é obrigatório</span>
+                <span *ngIf="perfilform.controls['sobrenome'].errors['maxlength']">Máximo 30 caracteres</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+              <span>E-mail:</span>
+              <input type="text" pInputText name="email" formControlName="email" [(ngModel)]="usuario.email"/>
+              <div class="ui-message ui-messages-error" *ngIf="!perfilform.controls['email'].valid&&perfilform.controls['email'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="perfilform.controls['email'].errors['required']">O email é obrigatório</span>
+                <span *ngIf="perfilform.controls['email'].errors['maxlength']">Máximo 60 caracteres</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+              <span>Data Nascimento:</span>
+              <p-calendar name="nascimento" formControlName="nascimento" [(ngModel)]="usuario.nascimento" dateFormat="dd/mm/yy" 
+              [locale]="ptBR" [showIcon]="true" showButtonBar="true" 
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2025"></p-calendar>
+              <div class="ui-message ui-messages-error" *ngIf="!perfilform.controls['nascimento'].valid&&perfilform.controls['nascimento'].dirty">
+                <i class="fa fa-close"></i>
+                A data de nascimento é obrigatória
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-6 ui-lg-6 ui-md-offset-6 ui-lg-offset-6">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <button pButton type="button" (click)="cancelar()" label="Cancelar" class="ui-button-warning"></button>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <button pButton [disabled]="!perfilform.valid" type="button" (click)="salvarDados(usuario)" label="Salvar" class="ui-button-success"></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </p-tabPanel>
+      <p-tabPanel header="Redefinição de Senha">
+        <form [formGroup]="senhaform">
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+              <span>Senha Atual:</span>
+              <input type="password" pPassword name="senhaatual" formControlName="senhaatual" [(ngModel)]="senhaAtual"/>
+              <div class="ui-message ui-messages-error" *ngIf="!senhaform.controls['senhaatual'].valid&&senhaform.controls['senhaatual'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="senhaform.controls['senhaatual'].errors['required']">A senha atual é obrigatória</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+              <span>Nova Senha:</span>
+              <input type="password" pPassword name="novasenha" formControlName="novasenha" [(ngModel)]="novaSenha"/>
+              <div class="ui-message ui-messages-error" *ngIf="!senhaform.controls['novasenha'].valid&&senhaform.controls['novasenha'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="senhaform.controls['novasenha'].errors['required']">A senha é obrigatória</span>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-6">
+              <span>Repita a Senha:</span>
+              <input type="password" pPassword name="repetesenha" formControlName="repetesenha" [(ngModel)]="novaSenhaRep"/>
+              <div class="ui-message ui-messages-error" *ngIf="!senhaform.controls['repetesenha'].valid&&senhaform.controls['repetesenha'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="senhaform.controls['repetesenha'].errors['required']">A senha é obrigatória</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-6 ui-lg-6 ui-md-offset-6 ui-lg-offset-6">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <button pButton type="button" (click)="cancelar()" label="Cancelar" class="ui-button-warning"></button>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <button pButton [disabled]="!senhaform.valid" type="button" (click)="salvarNovaSenha(senhaAtual, novaSenha, novaSenhaRep)" label="Salvar" class="ui-button-success"></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </p-tabPanel>
+    </p-tabView>
+    <p-confirmDialog></p-confirmDialog>
+  </p-panel>
+</div>
+<p-growl [value]="msgs" [life]="3000"></p-growl>

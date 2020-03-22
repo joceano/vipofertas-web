@@ -1,0 +1,13 @@
+.titulo-login {
+    text-align: center;
+    color: #6A1B9A;
+}
+.pointer {
+    cursor: pointer;    
+}
+.center {
+    text-align: center;
+}
+#div-login {
+    margin-top: 6%;
+}

@@ -1,0 +1,40 @@
+<form [formGroup]="loginform">
+  <div class="ui-g" id="div-login">
+    <div class="ui-g-12 ui-md-4 ui-md-offset-4">
+      <h2 class="titulo-login">Vip Ofertas</h2>
+    </div>
+    <div class="ui-g-12 ui-md-4 ui-md-offset-4">
+      <div class="ui-g-12 ui-md-10 ui-lg-8 ui-md-offset-1 ui-lg-offset-2">
+        <p-progressBar mode="indeterminate" *ngIf="progressLogar"></p-progressBar>
+        <p-card title="Login" styleClass="ui-card-shadow">
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+              <span>CPF:</span>
+              <p-inputMask name="username" mask="99999999999" [(ngModel)]="usuario.username" formControlName="username"></p-inputMask>
+              <div class="ui-message ui-messages-error" *ngIf="!loginform.controls['username'].valid&&loginform.controls['username'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="loginform.controls['username'].errors['required']">O CPF é obrigatório</span>
+                <span *ngIf="loginform.controls['username'].errors['minlength']">Informe 11 caracteres</span>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+              <span>Senha:</span>
+              <input name="password" type="password" pPassword [(ngModel)]="usuario.password" formControlName="password" (keyup.enter)="fazerLogin(usuario)"/>
+              <div class="ui-message ui-messages-error" *ngIf="!loginform.controls['password'].valid&&loginform.controls['password'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="loginform.controls['password'].errors['required']">A senha é obrigatória</span>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+              <button pButton [disabled]="!loginform.valid" type="button" (click)="fazerLogin(usuario)" label="Entrar" class="ui-button-success"></button>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-12 center">
+              <span class="pointer" (click)="redefinirSenha()">Esqueceu sua senha?</span>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+  </div>
+  <p-growl [value]="msgs" [life]="3000"></p-growl>
+</form>

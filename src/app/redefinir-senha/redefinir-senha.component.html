@@ -1,0 +1,50 @@
+<form [formGroup]="redefinirform">
+  <div class="ui-g" id="div-redefinir">
+    <div class="ui-g-12 ui-md-4 ui-md-offset-4">
+      <div class="ui-g-12 ui-md-10 ui-lg-8 ui-md-offset-1 ui-lg-offset-2">
+        <p-progressBar mode="indeterminate" *ngIf="progressRedef"></p-progressBar>
+        <p-card title="Nova Senha" styleClass="ui-card-shadow">
+          <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+              <span>CPF:</span>
+              <p-inputMask name="username" mask="99999999999" [(ngModel)]="usuario.username" formControlName="username"></p-inputMask>
+              <div class="ui-message ui-messages-error" *ngIf="!redefinirform.controls['username'].valid&&redefinirform.controls['username'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="redefinirform.controls['username'].errors['required']">O CPF é obrigatório</span>
+                <span *ngIf="redefinirform.controls['username'].errors['minlength']">Informe 11 caracteres</span>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+              <span>Data Nascimento:</span>
+              <p-calendar name="nascimento" formControlName="nascimento" [(ngModel)]="usuario.nascimento" dateFormat="dd/mm/yy"
+              [locale]="ptBR" [showIcon]="true" showButtonBar="true"
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2025"></p-calendar>
+              <div class="ui-message ui-messages-error" *ngIf="!redefinirform.controls['nascimento'].valid&&redefinirform.controls['nascimento'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="redefinirform.controls['nascimento'].errors['required']">A data de nascimento é obrigatória</span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!progressRedef">
+            <div class="ui-g ui-fluid" *ngIf="senhaRedef">
+              <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <button pButton type="button" (click)="cancelar()" label="Voltar" class="ui-button-warning"></button>
+              </div>
+            </div>
+            <div class="ui-g ui-fluid" *ngIf="!senhaRedef">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <button pButton type="button" (click)="cancelar()" label="Cancelar" class="ui-button-warning"></button>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <button pButton [disabled]="!redefinirform.valid" type="button" (click)="redefinirSenha(usuario)" label="Redefinir" class="ui-button-success"></button>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-12">
+        <p-messages [(value)]="msgs"></p-messages>
+      </div>
+    </div>
+  </div>
+</form>

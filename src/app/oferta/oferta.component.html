@@ -1,0 +1,30 @@
+<div class="ui-g-8 ui-md-7 ui-lg-7 ui-g-offset-4 ui-md-offset-5 ui-lg-offset-5" *ngIf="progressCarregar">
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<div *ngIf="!progressCarregar">
+  <div class="ui-g-12 ui-md-10 ui-lg-10 ui-md-offset-2 ui-lg-offset-2 btn-novo">
+    <button class="ui-button-success" type="button" pButton icon="fa-plus" iconPos="left" label="Incluir" (click)="novo()" style="float:left"></button>
+  </div>
+  <div class="ui-g-12 ui-md-12 list">
+    <p-orderList [value]="ofertas" [listStyle]="{'height':'400px'}" [responsive]="true" header="Lista de Ofertas"
+     filter="filter" filterBy="nome,descricao" filterPlaceholder="Pesquisar" (onReorder)="ordenar()">
+      <ng-template let-oferta pTemplate="item">
+        <div class="ui-helper-clearfix">
+            <div class="ui-toolbar-group-left">
+              <img class="img" src="{{serverUrl}}{{oferta.imagem}}">
+            </div>
+            <div class="ui-toolbar-group-left">
+              <div class="inf-nome">{{oferta.nome}}</div>
+              <div class="inf-descricao">{{oferta.descricao}}</div>
+            </div>
+            <div class="ui-toolbar-group-right btn-acao">
+              <button pButton type="button" icon="fa-edit" [routerLink]="['/promocao/edit', oferta.id]"></button>
+              <button pButton type="button" icon="fa-trash" (click)="excluir(oferta.id)"></button>
+            </div>
+        </div>
+      </ng-template>
+    </p-orderList>
+    <p-confirmDialog></p-confirmDialog>
+  </div>
+</div>
+<p-growl [value]="msgs" [life]="3000"></p-growl>

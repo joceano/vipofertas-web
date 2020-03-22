@@ -1,0 +1,26 @@
+<div class="ui-g-8 ui-md-7 ui-lg-7 ui-g-offset-4 ui-md-offset-5 ui-lg-offset-5" *ngIf="progressCarregar">
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<div *ngIf="!progressCarregar">
+  <div class="ui-g-12 ui-md-12 ui-lg-8 ui-lg-offset-2 btn-novo">
+    <button class="ui-button-success" type="button" pButton icon="fa-plus" iconPos="left" label="Incluir" (click)="novo()" style="float:left"></button>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-8 ui-lg-offset-2 list">
+    <p-dataTable [value]="notificacoes" [rows]="5" [paginator]="true" selectionMode="single" [rowsPerPageOptions]="[5,10]" >
+      <p-header>Lista de Notificações</p-header>
+      <p-column field="titulo" header="Título" [filter]="true" filterPlaceholder="Pesquisar" filterMatchMode="contains"></p-column>
+      <p-column field="descricao" header="Descrição" [filter]="true" filterPlaceholder="Pesquisar" filterMatchMode="contains"></p-column>
+      <p-column styleClass="col-button">
+        <ng-template pTemplate="header">
+          <span>Ação</span>
+        </ng-template>
+        <ng-template let-notificacao="rowData" pTemplate="body">
+          <div class="centro">
+            <button type="button" pButton [routerLink]="['/notificacao/edit', notificacao.id]" icon="fa-search"></button>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>
+<p-growl [value]="msgs" [life]="3000"></p-growl>

@@ -1,0 +1,40 @@
+<mat-toolbar color="primary" *ngIf="isMostrarMenu()">
+  <mat-toolbar-row>
+    <button (click)="visibleSidebar = true" mat-icon-button>
+      <mat-icon aria-label="Menu">menu</mat-icon>
+    </button>
+    <span>Portal Vip Ofertas / {{usuarioLogado?.parceiro?.nome}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<p-sidebar [(visible)]="visibleSidebar" [baseZIndex]="10000">
+  <div class="div-label-visitante" *ngIf="isMostrarMenu()">
+    <h3 class="label-center" style="font-weight:normal"><span class="bem-vindo">Bem Vindo,</span> {{usuarioLogado?.nome}}!</h3>
+  </div>
+  <mat-nav-list>
+    <mat-list-item (click)="abrirOferta()">
+      <mat-icon mat-list-icon>shopping_cart</mat-icon>
+      <h4 mat-line>Promoções</h4>
+      <span flex></span>
+      <mat-icon>chevron_right</mat-icon>
+    </mat-list-item>
+    <mat-list-item (click)="abrirNotificacao()">
+      <mat-icon mat-list-icon>notifications</mat-icon>
+      <h4 mat-line>Notificações</h4>
+      <span flex></span>
+      <mat-icon>chevron_right</mat-icon>
+    </mat-list-item>
+    <mat-list-item (click)="abrirPerfil()">
+      <mat-icon mat-list-icon>person</mat-icon>
+      <h4 mat-line>Minha Conta</h4>
+      <span flex></span>
+      <mat-icon>chevron_right</mat-icon>
+    </mat-list-item>
+    <mat-list-item *ngIf="isMostrarMenu()" (click)="logout()">
+      <mat-icon mat-list-icon>close</mat-icon>
+      <h4 mat-line>Sair</h4>
+      <span flex></span>
+      <mat-icon>chevron_right</mat-icon>
+    </mat-list-item>
+  </mat-nav-list>
+</p-sidebar>
+<router-outlet></router-outlet>

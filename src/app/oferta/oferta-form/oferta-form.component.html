@@ -1,0 +1,110 @@
+<form [formGroup]="ofertaform">
+  <div class="ui-g-12 ui-md-8 ui-lg-6 ui-md-offset-2 ui-lg-offset-3">
+    <p-progressBar mode="indeterminate" *ngIf="progressSalvar"></p-progressBar>
+    <p-panel header="Cadastro de Ofertas" [style]="{'margin-bottom':'10px'}">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+          <span>Nome:</span>
+          <input type="text" pInputText name="nome" formControlName="nome" [(ngModel)]="oferta.nome"/>
+          <div class="ui-message ui-messages-error" *ngIf="!ofertaform.controls['nome'].valid&&ofertaform.controls['nome'].dirty">
+            <i class="fa fa-close"></i>
+            <span *ngIf="ofertaform.controls['nome'].errors['required']">O título é obrigatório</span>
+            <span *ngIf="ofertaform.controls['nome'].errors['maxlength']">Máximo 20 caracteres</span>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <span>Marca:</span>
+          <input type="text" pInputText name="descricao" formControlName="descricao" [(ngModel)]="oferta.descricao"/>
+          <div class="ui-message ui-messages-error" *ngIf="!ofertaform.controls['descricao'].valid&&ofertaform.controls['descricao'].dirty">
+            <i class="fa fa-close"></i>
+            <span *ngIf="ofertaform.controls['descricao'].errors['required']">O subtítulo é obrigatório</span>
+            <span *ngIf="ofertaform.controls['descricao'].errors['maxlength']">Máximo 20 caracteres</span>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <span>Unidade:</span>
+          <p-autoComplete name="unidade" formControlName="unidade" [(ngModel)]="oferta.unidade" 
+            [suggestions]="retornoUnidades" (completeMethod)="pesquisarUnidades($event)" [dropdown]="true"></p-autoComplete>
+          <div class="ui-message ui-messages-error" *ngIf="!ofertaform.controls['unidade'].valid&&ofertaform.controls['unidade'].dirty">
+            <i class="fa fa-close"></i>
+            <span *ngIf="ofertaform.controls['unidade'].errors['required']">A unidade é obrigatória</span>
+            <span *ngIf="ofertaform.controls['unidade'].errors['maxlength']">Máximo 20 caracteres</span>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <span>Data Inicial:</span>
+          <p-calendar name="dtinicial" formControlName="dtinicial" [(ngModel)]="oferta.dtinicial" hourFormat="24" dateFormat="dd/mm/yy" 
+          [locale]="ptBR" [showTime]="true" [showIcon]="true" showButtonBar="true" hideOnDateTimeSelect="true" 
+          [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+          <div class="ui-message ui-messages-error" *ngIf="!ofertaform.controls['dtinicial'].valid&&ofertaform.controls['dtinicial'].dirty">
+            <i class="fa fa-close"></i>
+            A data inicial é obrigatória
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6">
+          <span>Data Final:</span>
+          <p-calendar name="dtfinal" formControlName="dtfinal" [(ngModel)]="oferta.dtfinal" hourFormat="24" dateFormat="dd/mm/yy"  
+          [locale]="ptBR" [showTime]="true" [showIcon]="true" showButtonBar="true" hideOnDateTimeSelect="true"
+          [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+          <div class="ui-message ui-messages-error" *ngIf="!ofertaform.controls['dtfinal'].valid&&ofertaform.controls['dtfinal'].dirty">
+            <i class="fa fa-close"></i>
+            A data final é obrigatória
+          </div>
+        </div>
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-4 ui-lg-4">
+          <span>Preço:</span>
+            <input pInputText currencyMask name="preco" formControlName="preco" [(ngModel)]="oferta.preco" 
+            (focus)="inicializarValores()" autocomplete="off"
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', allowNegative: false }">
+            <div class="ui-message ui-messages-error" *ngIf="!ofertaform.controls['preco'].valid&&ofertaform.controls['preco'].dirty">
+              <i class="fa fa-close"></i>
+              O preço é obrigatório
+            </div>
+        </div>
+        <div class="ui-g-12 ui-md-4 ui-lg-4">
+          <span>Preço Promo:</span>
+            <input pInputText currencyMask name="precopromo" formControlName="precopromo" [(ngModel)]="oferta.precopromo" 
+              (focus)="inicializarValores()" autocomplete="off"
+              [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', allowNegative: false }">
+            <div class="ui-message ui-messages-error" *ngIf="!ofertaform.controls['precopromo'].valid&&ofertaform.controls['precopromo'].dirty">
+              <i class="fa fa-close"></i>
+              O preço promocional é obrigatório
+            </div>
+        </div>
+        <div class="ui-g-6 ui-md-4 ui-lg-4 ativo">
+          <p-checkbox name="ativo" formControlName="ativo" [(ngModel)]="oferta.ativo" binary="true" label="Promoção Ativa?"></p-checkbox>
+        </div>
+      </div>
+      <div class="upload">
+        <p-fileUpload name="demo[]" accept="image/*" maxFileSize="5000000" (onSelect)="selectFile($event)" 
+          previewWidth="80" customUpload="true" chooseLabel="Selecionar imagem" [showCancelButton]="false" 
+          [showUploadButton]="false" (onRemove)="removeImg()">
+          <ng-template pTemplate="content">
+            <ul *ngIf="selectedFiles">
+              <li *ngFor="let file of selectedFiles">{{file.name}} - {{file.size}} bytes</li>
+            </ul>
+            <img *ngIf="!selectedFiles" class="img-det" src="{{dirImg}}" alt="img">
+          </ng-template>
+        </p-fileUpload>
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-6 ui-lg-6 ui-md-offset-6 ui-lg-offset-6">
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <button pButton type="button" (click)="cancelar()" label="Cancelar" class="ui-button-warning"></button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-6">
+            <button pButton [disabled]="!habilitarSalvar(ofertaform.valid)" type="button" (click)="salvar(oferta)" label="Salvar" class="ui-button-success"></button>
+          </div>
+        </div>
+      </div>
+    </p-panel>
+    <p-confirmDialog></p-confirmDialog>
+  </div>
+</form>
+<p-growl [value]="msgs" [life]="3000"></p-growl>

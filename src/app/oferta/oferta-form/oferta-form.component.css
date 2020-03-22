@@ -1,0 +1,16 @@
+.font-Exo {
+    font-family: 'Exo 2', sans-serif !important;
+}
+.img-det {
+    height: 80px;
+    width: 100px;   
+}
+.ativo {
+    flex: 1;
+    align-self: flex-end;
+}
+.upload {
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-top: 6px;
+}
